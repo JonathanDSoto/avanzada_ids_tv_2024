@@ -23,6 +23,7 @@
 		const myCanvas = document.getElementById("myCanvas"); 
 		const ctx = myCanvas.getContext("2d");
 		var figura = 1;
+		var status = 0;
 
 		document.getElementById("myCanvas").addEventListener("mouseout",function(e){
 			
@@ -32,6 +33,9 @@
 
 		document.getElementById("myCanvas").addEventListener("mousedown",function(e){ 
 
+			status = 1;
+			console.log(status)
+
 			if (figura==1) {
 				ctx.beginPath();
 				ctx.arc(e.x, e.y, 50, 0, 2 * Math.PI);
@@ -39,14 +43,31 @@
 				ctx.stroke()
 			}else{
 
-				ctx.fillRect(e.x, e.y,100,100) 
-				ctx.strokeRect(e.x, e.y,100,100) 
+				ctx.fillRect(e.x-50, e.y-50,100,100) 
+				ctx.strokeRect(e.x-50, e.y-50,100,100) 
 			}
 			
 		});
 
 		document.getElementById("myCanvas").addEventListener("mouseover",function(e){
 			ctx.fillStyle = getRandomColor();
+		})
+
+		document.getElementById("myCanvas").addEventListener("mouseup",function(e){
+			console.log(e)
+
+			status = 0;
+
+			console.log(status)
+		})
+
+		document.getElementById("myCanvas").addEventListener("mousemove",function(e){
+
+			if (status==1) {
+				ctx.beginPath();
+				ctx.arc(e.offsetX, e.offsetY, 2, 0, 2 * Math.PI); 
+				ctx.stroke()
+			}
 		})
 
 		function getRandomColor() {
@@ -129,16 +150,9 @@
 
 		// document.getElementById("myCanvas").addEventListener("click",function(e){
 		// 	console.log(e)
-		// })
+		// }) 
 		
 		
-		// document.getElementById("myCanvas").addEventListener("mousemove",function(e){
-		// 	console.log(e)
-		// })
-		
-		// document.getElementById("myCanvas").addEventListener("mouseup",function(e){
-		// 	console.log(e)
-		// })
 
 	</script>
 </body>
