@@ -20,10 +20,46 @@
 	<canvas id="myCanvas" width="600" height="500"></canvas>
 
 	<script type="text/javascript">
-		const myCanvas = document.getElementById("myCanvas");
-		
+		const myCanvas = document.getElementById("myCanvas"); 
 		const ctx = myCanvas.getContext("2d");
+		var figura = 1;
 
+		document.getElementById("myCanvas").addEventListener("mouseout",function(e){
+			
+			figura = (figura==1)?2:1;
+
+		})
+
+		document.getElementById("myCanvas").addEventListener("mousedown",function(e){ 
+
+			if (figura==1) {
+				ctx.beginPath();
+				ctx.arc(e.x, e.y, 50, 0, 2 * Math.PI);
+				ctx.fill()
+				ctx.stroke()
+			}else{
+
+				ctx.fillRect(e.x, e.y,100,100) 
+				ctx.strokeRect(e.x, e.y,100,100) 
+			}
+			
+		});
+
+		document.getElementById("myCanvas").addEventListener("mouseover",function(e){
+			ctx.fillStyle = getRandomColor();
+		})
+
+		function getRandomColor() {
+			  var trans = '0.5'; // 50% transparency
+			  var color = 'rgba(';
+			  for (var i = 0; i < 3; i++) {
+			    color += Math.floor(Math.random() * 255) + ',';
+			  }
+			  color += trans + ')'; // add the transparency
+			  return color;
+		}
+
+		/*
 		ctx.fillStyle = "#F49480";
 		ctx.fillRect(20,20,100,100) 
 
@@ -88,6 +124,21 @@
 		// Draw a filled Rectangle
 		ctx.fillStyle = grd2;
 		ctx.fillRect(200, 100, 200, 200); 
+		*/
+
+
+		// document.getElementById("myCanvas").addEventListener("click",function(e){
+		// 	console.log(e)
+		// })
+		
+		
+		// document.getElementById("myCanvas").addEventListener("mousemove",function(e){
+		// 	console.log(e)
+		// })
+		
+		// document.getElementById("myCanvas").addEventListener("mouseup",function(e){
+		// 	console.log(e)
+		// })
 
 	</script>
 </body>
