@@ -24,60 +24,105 @@
 		const ctx = myCanvas.getContext("2d");
 		var super_x = 100;
 		var super_y = 100; 
-
-		paint(ctx);
+		var direction = '';
+		var speed = 5;
 
 		document.addEventListener('keypress',function(e){
-			
-			console.log(e.keyCode)
 
 			switch(e.keyCode)
 			{
 				case  119:
-					super_y -=10;
-					if (super_y<-10) {
-						super_y = 480;
-					}
+					direction = 'up';
 				break;
 
 				case 115:
-					super_y +=10;
+					direction = 'down';
+				break;
+
+				case 97:
+					direction = 'left';
+				break;
+
+				case 100:
+					direction = 'right';
+				break;
+
+				case 32:
+					speed += 2.5;
+				break;
+
+			} 
+
+		}) 
+
+		function update()
+		{
+			switch(direction)
+			{
+				case 'up':
+					super_y -=speed;
+					if (super_y<=10) {
+						super_y = 480;
+					}
+				break;
+				case 'down':
+					super_y +=speed;
 					if (super_y>500) {
 						super_y = 0;
 					}
 				break;
-
-				case 97:
-					super_x -=10;
-					if (super_x<-10) {
-						super_x = 580;
-					}
-				break;
-
-				case 100:
-					super_x +=10;
+				case 'right':
+					super_x +=speed;
 					if (super_x>500) {
 						super_x = 0;
 					}
 				break;
-
+				case 'left':
+					super_x -=speed;
+					if (super_x<=10) {
+						super_x = 580;
+					}
+				break;
 			}
+		}
 
-			paint(ctx);
-
-		}) 
-
-		function paint(ctx)
+		function paint()
 		{
 
 			ctx.fillStyle="white";
 			ctx.fillRect(0, 0,600,500) 
 
+			ctx.font = "15px Arial"; 
+			ctx.fillStyle="black"; 
+			ctx.fillText("Speed: "+speed, 510,30)
+
 			ctx.fillStyle="red";
 			ctx.fillRect(super_x, super_y,30,30) 
 			ctx.strokeRect(super_x, super_y,30,30) 
 
+			update()
+			requestAnimationFrame(paint);
 		}
+
+		requestAnimationFrame(paint);
+		
+
+
+		window.requestAnimationFrame = (function () {
+		    return window.requestAnimationFrame ||
+		        window.webkitRequestAnimationFrame ||
+		        window.mozRequestAnimationFrame ||
+		        function (callback) {
+		            window.setTimeout(callback, 17);
+		        };
+		}());
+
+
+
+
+
+
+
 
 		/*document.getElementById("myCanvas").addEventListener("mouseout",function(e){
 			
