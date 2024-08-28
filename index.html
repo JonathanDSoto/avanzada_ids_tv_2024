@@ -22,10 +22,64 @@
 	<script type="text/javascript">
 		const myCanvas = document.getElementById("myCanvas"); 
 		const ctx = myCanvas.getContext("2d");
-		var figura = 1;
-		var status = 0;
+		var super_x = 100;
+		var super_y = 100; 
 
-		document.getElementById("myCanvas").addEventListener("mouseout",function(e){
+		paint(ctx);
+
+		document.addEventListener('keypress',function(e){
+			
+			console.log(e.keyCode)
+
+			switch(e.keyCode)
+			{
+				case  119:
+					super_y -=10;
+					if (super_y<-10) {
+						super_y = 480;
+					}
+				break;
+
+				case 115:
+					super_y +=10;
+					if (super_y>500) {
+						super_y = 0;
+					}
+				break;
+
+				case 97:
+					super_x -=10;
+					if (super_x<-10) {
+						super_x = 580;
+					}
+				break;
+
+				case 100:
+					super_x +=10;
+					if (super_x>500) {
+						super_x = 0;
+					}
+				break;
+
+			}
+
+			paint(ctx);
+
+		}) 
+
+		function paint(ctx)
+		{
+
+			ctx.fillStyle="white";
+			ctx.fillRect(0, 0,600,500) 
+
+			ctx.fillStyle="red";
+			ctx.fillRect(super_x, super_y,30,30) 
+			ctx.strokeRect(super_x, super_y,30,30) 
+
+		}
+
+		/*document.getElementById("myCanvas").addEventListener("mouseout",function(e){
 			
 			figura = (figura==1)?2:1;
 
@@ -78,7 +132,7 @@
 			  }
 			  color += trans + ')'; // add the transparency
 			  return color;
-		}
+		}*/
 
 		/*
 		ctx.fillStyle = "#F49480";
@@ -152,7 +206,13 @@
 		// 	console.log(e)
 		// }) 
 		
-		
+		// document.addEventListener('keydown',function(e){
+		// 	console.log(e)
+		// }) 
+
+		// document.addEventListener('keyup',function(e){
+		// 	console.log(e)
+		// })
 
 	</script>
 </body>
