@@ -22,8 +22,41 @@
 	<script type="text/javascript">
 		const myCanvas = document.getElementById("myCanvas"); 
 		const ctx = myCanvas.getContext("2d");
-		var super_x = 100;
-		var super_y = 100; 
+
+		class Rectangulo { 
+
+		 	constructor(color,w,h,x,y,speed) {
+
+		 		this.color = color;
+		    	this.h = h;
+		    	this.w = w;
+		    	this.x = x;
+		    	this.y = y;
+		    	this.speed = speed;
+		 	}  
+
+		 	colision(otro) {
+
+		 		if( 
+		 			this.x < otro.x + otro.w && 
+		 			this.x + this.w > otro.x &&  
+		 			this.y < otro.y + otro.h &&   
+		 			this.y + this.h > otro.y
+		 		){
+		 			return true; 
+		 		}
+
+			    return false;
+			}
+
+		}
+
+		var player = new Rectangulo("red",30, 30,100,100, 5);
+
+		var target = new Rectangulo("black",10,10,200,200, null);
+
+		var wall = new Rectangulo("gray",300,15,150,350, null);
+
 		var direction = '';
 		var speed = 5;
 
@@ -60,29 +93,55 @@
 			switch(direction)
 			{
 				case 'up':
-					super_y -=speed;
-					if (super_y<=10) {
-						super_y = 480;
+					player.y -=speed;
+					if (player.y<=10) {
+						player.y = 480;
 					}
 				break;
 				case 'down':
-					super_y +=speed;
-					if (super_y>500) {
-						super_y = 0;
+					player.y +=speed;
+					if (player.y>500) {
+						player.y = 0;
 					}
 				break;
 				case 'right':
-					super_x +=speed;
-					if (super_x>500) {
-						super_x = 0;
+					player.x +=speed;
+					if (player.x>500) {
+						player.x = 0;
 					}
 				break;
 				case 'left':
-					super_x -=speed;
-					if (super_x<=10) {
-						super_x = 580;
+					player.x -=speed;
+					if (player.x<=10) {
+						player.x = 580;
 					}
 				break;
+			}
+
+			if (player.colision(target)) {
+
+				target.x = Math.floor(Math.random() * 500)
+				target.y = Math.floor(Math.random() * 500)
+			}
+
+			console.log(player.colision(wall))
+			if (player.colision(wall)) {
+
+				switch(direction)
+				{
+					case 'up':
+						player.y +=speed; 
+					break;
+					case 'down':
+						player.y -=speed;
+					break;
+					case 'right':
+						player.x -=speed;
+					break;
+					case 'left':
+						player.x +=speed;
+					break;
+				}
 			}
 		}
 
@@ -96,17 +155,23 @@
 			ctx.fillStyle="black"; 
 			ctx.fillText("Speed: "+speed, 510,30)
 
-			ctx.fillStyle="red";
-			ctx.fillRect(super_x, super_y,30,30) 
-			ctx.strokeRect(super_x, super_y,30,30) 
+			//player o jugador
+			ctx.fillStyle= player.color;
+			ctx.fillRect(player.x, player.y,player.w, player.h)  
+
+			//target
+			ctx.fillStyle= target.color;
+			ctx.fillRect(target.x, target.y,target.w, target.h)  
+
+			//wall
+			ctx.fillStyle= wall.color;
+			ctx.fillRect(wall.x, wall.y,wall.w, wall.h)  
 
 			update()
 			requestAnimationFrame(paint);
 		}
 
-		requestAnimationFrame(paint);
-		
-
+		requestAnimationFrame(paint); 
 
 		window.requestAnimationFrame = (function () {
 		    return window.requestAnimationFrame ||
@@ -117,7 +182,7 @@
 		        };
 		}());
 
-
+		
 
 
 
