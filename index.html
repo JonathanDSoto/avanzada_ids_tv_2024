@@ -4,375 +4,89 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
-		Canvas
+		
 	</title>
 	<style type="text/css">
-		body{
+		input{
 			background-color: gray;
-		}
-		canvas{
-			background-color: white; 
 		}
 	</style>
 </head>
 <body>
-
-	<canvas id="myCanvas" width="600" height="500"></canvas>
-
-	<script type="text/javascript">
-		const myCanvas = document.getElementById("myCanvas"); 
-		const ctx = myCanvas.getContext("2d");
-		var walls = [];
-		var score = 0;
-		var pause = false;
-		const coin = new Audio("messenger-tono-mensaje-.mp3");
-
-		const image = new Image("neurologia.png")
-
-		class Rectangulo { 
-
-		 	constructor(color,w,h,x,y,speed) {
-
-		 		this.color = color;
-		    	this.h = h;
-		    	this.w = w;
-		    	this.x = x;
-		    	this.y = y;
-		    	this.speed = speed;
-		 	}  
-
-		 	colision(otro) {
-
-		 		if( 
-		 			this.x < otro.x + otro.w && 
-		 			this.x + this.w > otro.x &&  
-		 			this.y < otro.y + otro.h &&   
-		 			this.y + this.h > otro.y
-		 		){
-		 			return true; 
-		 		}
-
-			    return false;
-			}
-
-			paint(ctx)
-			{
-
-			}
-
-		}
-
-		var player = new Rectangulo("red",30, 30,100,100, 5);
-
-		var target = new Rectangulo("black",10,10,200,200, null);
-
-		walls.push(new Rectangulo("gray",300,15,150,350, null)) 
-		walls.push(new Rectangulo("gray",300,15,150,150, null)) 
-		walls.push(new Rectangulo("gray",15,300,10,10, null)) 
-
-		var direction = '';
-		var speed = 5;
-
-		document.addEventListener('keypress',function(e){
-
-			switch(e.keyCode)
-			{
-				case  119:
-					direction = 'up';
-				break;
-
-				case 115:
-					direction = 'down';
-				break;
-
-				case 97:
-					direction = 'left';
-				break;
-
-				case 100:
-					direction = 'right';
-				break;
-
-				case 32:
-					pause = !pause;
-				break;
-
-			} 
-
-		}) 
-
-		function update()
-		{
-			if (!pause) { 
-
-				switch(direction)
-				{
-					case 'up':
-						player.y -=speed;
-						if (player.y<=10) {
-							player.y = 480;
-						}
-					break;
-					case 'down':
-						player.y +=speed;
-						if (player.y>500) {
-							player.y = 0;
-						}
-					break;
-					case 'right':
-						player.x +=speed;
-						if (player.x>500) {
-							player.x = 0;
-						}
-					break;
-					case 'left':
-						player.x -=speed;
-						if (player.x<=10) {
-							player.x = 580;
-						}
-					break;
-				}
-
-			}
-
-			if (player.colision(target)) {
-
-				target.x = Math.floor(Math.random() * 500)
-				target.y = Math.floor(Math.random() * 500)
-
-				score+= 10;
-				speed += 1;
-
-				coin.pause();
-				coin.play();
-			}
-
-			walls.forEach(function (wall, i, array) {
-				
-				if (player.colision(wall)) { 
-					switch(direction)
-					{
-						case 'up':
-							player.y +=speed; 
-						break;
-						case 'down':
-							player.y -=speed;
-						break;
-						case 'right':
-							player.x -=speed;
-						break;
-						case 'left':
-							player.x +=speed;
-						break;
-					}
-				} 
-			});
-			
-		}
-
-		function paint()
-		{ 
-			ctx.fillStyle="white";
-			ctx.fillRect(0, 0,600,500) 
-
-			ctx.font = "15px Arial"; 
-			ctx.fillStyle="black"; 
-			ctx.fillText("Score: "+score, 510,30)
-
-			//player o jugador
-			ctx.fillStyle= player.color;
-			ctx.fillRect(player.x, player.y,player.w, player.h)  
-			ctx.drawImage(image, player.x, player.y,player.w, player.h);
-
-			//target
-			ctx.fillStyle= target.color;
-			ctx.fillRect(target.x, target.y,target.w, target.h)  
-
-			//wall
-			walls.forEach(function (wall, i, array) {
-				
-				ctx.fillStyle= wall.color;
-				ctx.fillRect(wall.x, wall.y,wall.w, wall.h)   
-
-			});
-
-			if (pause) {
-				
-				ctx.fillStyle="rgba(196,193,192,0.5)";
-				ctx.fillRect(0, 0,600,500) 
-
-				ctx.font = "30px Arial"; 
-				ctx.fillStyle="black"; 
-				ctx.fillText("P A U S E ", 250,250)
-			}
-
-			update()
-			requestAnimationFrame(paint);
-		}
-
-		requestAnimationFrame(paint); 
-
-		window.requestAnimationFrame = (function () {
-		    return window.requestAnimationFrame ||
-		        window.webkitRequestAnimationFrame ||
-		        window.mozRequestAnimationFrame ||
-		        function (callback) {
-		            window.setTimeout(callback, 17);
-		        };
-		}());
-
+	<div id="main">
 		
+		<h3>
+			Hola a la aplicación: {{ name_app }}  
+		</h3>
 
+		<button @click="contador++"  >
+			Click me: {{ contador }}	
+		</button>
 
+		<hr>
+	
+		<form> 
+			<fieldset>
+				<label>
+					Nombre
+				</label>
+				<input type="" v-model="username" placeholder="write here" name="">
+			</fieldset>
 
+			<label>
+				Tu nombre es: <span > {{ username }} </span>
+			</label>
+		</form>
 
+		<hr>
 
-
-		/*document.getElementById("myCanvas").addEventListener("mouseout",function(e){
+		<form>
 			
-			figura = (figura==1)?2:1;
+			<input type="number" v-model="num1" name="">
 
-		})
+			<br>
 
-		document.getElementById("myCanvas").addEventListener("mousedown",function(e){ 
+			<input type="number" v-model="num2" name="">
 
-			status = 1;
-			console.log(status)
+			<br>
 
-			if (figura==1) {
-				ctx.beginPath();
-				ctx.arc(e.x, e.y, 50, 0, 2 * Math.PI);
-				ctx.fill()
-				ctx.stroke()
-			}else{
+			<button v-on:click="resultado=num1+num2" type="button">
+				Sumar
+			</button>
 
-				ctx.fillRect(e.x-50, e.y-50,100,100) 
-				ctx.strokeRect(e.x-50, e.y-50,100,100) 
-			}
-			
-		});
+		</form>
 
-		document.getElementById("myCanvas").addEventListener("mouseover",function(e){
-			ctx.fillStyle = getRandomColor();
-		})
+		<label>
+			{{ resultado }}	
+		</label>
 
-		document.getElementById("myCanvas").addEventListener("mouseup",function(e){
-			console.log(e)
+	</div>
+	
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script>
+	  const { createApp, ref } = Vue
 
-			status = 0;
+	  createApp({
+	    setup() {
+	      
+	    	const name_app = ref('Mi primer app') 
+	      	let contador = ref(0)
+	      	let username = ref('')
+	      	let resultado = ref(0)
+	      	let num1 = ref('')
+	      	let num2 = ref('')
 
-			console.log(status)
-		})
+		    return {
+		    	name_app,
+		    	contador,
+		    	username,
+		    	resultado,
+		    	num1,
+				num2
+		    }
 
-		document.getElementById("myCanvas").addEventListener("mousemove",function(e){
-
-			if (status==1) {
-				ctx.beginPath();
-				ctx.arc(e.offsetX, e.offsetY, 2, 0, 2 * Math.PI); 
-				ctx.stroke()
-			}
-		})
-
-		function getRandomColor() {
-			  var trans = '0.5'; // 50% transparency
-			  var color = 'rgba(';
-			  for (var i = 0; i < 3; i++) {
-			    color += Math.floor(Math.random() * 255) + ',';
-			  }
-			  color += trans + ')'; // add the transparency
-			  return color;
-		}*/
-
-		/*
-		ctx.fillStyle = "#F49480";
-		ctx.fillRect(20,20,100,100) 
-
-		ctx.fillStyle = "green"
-		ctx.fillRect(180,180,100,100)
-
-		ctx.fillStyle = "rgba(128,244,242,0.6)";
-		ctx.fillRect(100,100,100,100)
-
-		ctx.strokeRect(260,260,100,100)
-
-		ctx.strokeStyle="red"
-		ctx.lineWidth = 5;
-		ctx.strokeRect(340,340,100,100)
-
-		ctx.beginPath();
-		ctx.moveTo(300,250)
-		ctx.lineTo(300,450)
-		ctx.lineTo(400,150)
-		ctx.closePath()
-		ctx.stroke();
-		ctx.fill()
-		
-		ctx.strokeStyle="#AD77E7"
-		ctx.beginPath();
-		ctx.arc(100, 375, 80, 0, 2 * Math.PI);
-		ctx.stroke();
-
-		ctx.beginPath();
-		ctx.arc(200, 375, 80, 0, 2 * Math.PI);
-		ctx.fill()
-
-		ctx.fillStyle="black";
-		ctx.beginPath();
-		ctx.arc(105, 325, 80, 0.9, 0.7 * Math.PI);
-		ctx.stroke();
-		ctx.fill()
-
-		ctx.font = "55px PartyLetPlain"; 
-		ctx.strokeText("Hola mundo", 352,52)
-
-		ctx.fillText("Hola mundo", 350,50)
-
-		var img = new Image()
-		img.src = "neurologia.png";
-
-		ctx.drawImage(img, 400, 200);
-
-		var grd = ctx.createLinearGradient(500,350,200,500)
-		grd.addColorStop(0, "#E7A377");
-		grd.addColorStop(1, "#77E78D"); 
-
-		ctx.fillStyle = grd;
-		ctx.fillRect(400,400,200,100)
-
-		// Create Radial
-		const grd2 = ctx.createRadialGradient(205, 150, 5, 190, 160, 200);
-		grd2.addColorStop(0, "red");
-		grd2.addColorStop(0.5, "yellow");
-		grd2.addColorStop(1, "blue");
-
-		// Draw a filled Rectangle
-		ctx.fillStyle = grd2;
-		ctx.fillRect(200, 100, 200, 200); 
-		*/
-
-
-		// document.getElementById("myCanvas").addEventListener("click",function(e){
-		// 	console.log(e)
-		// }) 
-		
-		// document.addEventListener('keydown',function(e){
-		// 	console.log(e)
-		// }) 
-
-		// document.addEventListener('keyup',function(e){
-		// 	console.log(e)
-		// })
-
+	    }
+	  }).mount('#main') 
 	</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
