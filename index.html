@@ -10,6 +10,27 @@
 		input{
 			background-color: gray;
 		}
+		table.customTable {
+		  width: 100%;
+		  background-color: #FFFFFF;
+		  border-collapse: collapse;
+		  border-width: 2px;
+		  border-color: #7EA8F8;
+		  border-style: solid;
+		  color: #000000;
+		}
+
+		table.customTable td, table.customTable th {
+		  border-width: 2px;
+		  border-color: #7EA8F8;
+		  border-style: solid;
+		  padding: 5px;
+		}
+
+		table.customTable thead {
+		  background-color: #7EA8F8;
+		}
+
 	</style>
 </head>
 <body>
@@ -49,6 +70,40 @@
 
 		</h1>
 
+		<div v-if="is_log">
+			
+			<table class="customTable">
+			  <thead>
+			    <tr>
+			      <th>
+			      	Nombre
+			      </th>
+			      <th>
+			      	Username
+			      </th>
+			      <th>
+			      	Email
+			      </th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr v-for="user in users">
+			      <td>
+			      	 {{ user.name }}
+			      </td>
+			      <td>
+			      	{{ user.username }}
+			      </td>
+			      <td>
+			      	{{ user.email }}
+			      </td>
+			    </tr> 
+			  </tbody>
+			</table> 
+
+
+		</div>
+
 		<hr>
 
 		 
@@ -66,12 +121,14 @@
 	      	let email = ref('jsoto@uabcs.mx') 
 	      	let password = ref('123123123') 
 	      	let is_log = ref(false) 
+	      	let users = ref([]) 
 
 		    return {
 		    	name_app, 
 		    	email,
 		    	password,
-		    	is_log
+		    	is_log,
+		    	users
 		    }
 
 	    },
@@ -91,7 +148,9 @@
 						if (e.email == this.email) {
 							if (e.password == this.password) {
 
-								this.is_log = true
+								this.is_log = true 
+
+								localStorage.setItem("user_data", JSON.stringify(e));
 							}
 						}
 
@@ -103,7 +162,26 @@
 
 				});
 	    	}
-	    }
+	    },
+	    mounted() { 
+
+	    	fetch ("users.json")
+			.then(response => response.json())
+			.then(response => {
+				
+				this.users = response; 
+
+			});
+
+		    let user_data = localStorage.getItem("user_data");
+		    if (user_data != null) {
+
+		    	user_data = JSON.parse(user_data) 
+
+		    	this.is_log = true
+		    }
+
+		}
 	  }).mount('#main') 
 	</script>
 </body>
