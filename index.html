@@ -70,7 +70,7 @@
 
 		</h1>
 
-		<div v-if="is_log">
+		<div v-if="is_log && !is_edit">
 			
 			<table class="customTable">
 			  <thead>
@@ -101,7 +101,7 @@
 			      	{{ user.email }}
 			      </td>
 			      <td>
-			      	<button>
+			      	<button v-on:click="editar(user.email)">
 			      		Editar
 			      	</button>
 			      	<button v-on:click="borrar(user.email)">
@@ -114,6 +114,40 @@
 
 
 		</div>
+
+		<fieldset>
+			<legend>
+				Editar registro
+			</legend>
+			<form v-if="is_edit" @submit.prevent="update_data">
+				
+				<fieldset>
+					<label>
+						Nombre
+					</label>
+					<input type="" v-model="update_name" name="">
+				</fieldset>
+
+				<fieldset>
+					<label>
+						Username
+					</label>
+					<input type=""  v-model="update_user" name="">
+				</fieldset>
+
+				<fieldset>
+					<label>
+						email
+					</label>
+					<input type="" readonly v-model="update_email" name="">
+				</fieldset>
+
+
+				<button>
+					Update data
+				</button>
+			</form>
+		<fieldset>
 
 		<hr>
 
@@ -133,13 +167,22 @@
 	      	let password = ref('123123123') 
 	      	let is_log = ref(false) 
 	      	let users = ref([]) 
+	      	let is_edit = ref(false) 
+
+	      	let update_name = ref('')
+			let update_user = ref('')
+			let update_email = ref('')
 
 		    return {
 		    	name_app, 
 		    	email,
 		    	password,
 		    	is_log,
-		    	users
+		    	users,
+		    	is_edit,
+		    	update_name,
+				update_user,
+				update_email
 		    }
 
 	    },
@@ -190,6 +233,40 @@
 
 				console.log(this.users)		
  
+	    	},
+	    	editar(email)
+	    	{
+	    		this.is_edit=true
+
+	    		for (var i = this.users.length - 1; i >= 0; i--) { 
+
+	    			if (this.users[i].email == email) {
+						
+						this.update_name = this.users[i].name
+						this.update_user = this.users[i].username
+						this.update_email = this.users[i].email
+					}
+	    		}
+	    	},
+	    	update_data()
+	    	{
+	    		for (var i = this.users.length - 1; i >= 0; i--) { 
+
+	    			if (this.users[i].email == this.update_email) {
+						
+						this.users[i].name = this.update_name  
+						 this.users[i].username  = this.update_user 
+
+						 this.is_edit=false
+
+						 alert("datos actualizados")
+					}
+	    		}
+
+	    		if (this.is_edit) {
+	    			alert("Ha ocurrido un error")
+	    		}
+	    		 
 	    	}
 	    },
 	    mounted() { 
