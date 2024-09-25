@@ -84,6 +84,9 @@
 			      <th>
 			      	Email
 			      </th>
+			      <th>
+			      	Acciones
+			      </th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -96,6 +99,14 @@
 			      </td>
 			      <td>
 			      	{{ user.email }}
+			      </td>
+			      <td>
+			      	<button>
+			      		Editar
+			      	</button>
+			      	<button v-on:click="borrar(user.email)">
+			      		Eliminar
+			      	</button>
 			      </td>
 			    </tr> 
 			  </tbody>
@@ -161,6 +172,24 @@
 					}
 
 				});
+	    	},
+	    	borrar(email)
+	    	{
+	    		
+	    		for (var i = this.users.length - 1; i >= 0; i--) { 
+
+	    			if (this.users[i].email == email) {
+						
+						console.log("asd") 
+
+						this.users.splice(i, 1);;
+						break;
+					}
+	    		}
+	    		 
+
+				console.log(this.users)		
+ 
 	    	}
 	    },
 	    mounted() { 
