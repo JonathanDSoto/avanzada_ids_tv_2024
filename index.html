@@ -3,184 +3,51 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>
-		
-	</title>
+	<title></title>
 	<style type="text/css">
-		input{
-			background-color: gray;
+		
+		.form_cointainer{
+			width: 60%;
+			margin: auto;
+			margin-top: 50px;
 		}
-		table.customTable {
-		  width: 100%;
-		  background-color: #FFFFFF;
-		  border-collapse: collapse;
-		  border-width: 2px;
-		  border-color: #7EA8F8;
-		  border-style: solid;
-		  color: #000000;
-		}
-
-		table.customTable td, table.customTable th {
-		  border-width: 2px;
-		  border-color: #7EA8F8;
-		  border-style: solid;
-		  padding: 5px;
-		}
-
-		table.customTable thead {
-		  background-color: #7EA8F8;
-		}
-
-		.myButton {
-			background-color:#44c767;
-			border-radius:28px;
-			border:1px solid #18ab29;
-			display:inline-block;
-			cursor:pointer;
-			color:#ffffff;
-			font-family:Arial;
-			font-size:17px;
-			padding:16px 31px;
-			text-decoration:none;
-			text-shadow:0px 1px 0px #2f6627;
-		}
-		.myButton:hover {
-			background-color:#5cbf2a;
-		}
-		.myButton:active {
-			position:relative;
-			top:1px;
-		}
-
-		        
 	</style>
 </head>
-<body>
-	<div id="main">
-		
-		<h3>
-			Hola a la aplicación: {{ name_app }}  
-		</h3> 
-		<hr>
-	
-		<form @submit.prevent="login" v-if="!is_log"> 
+<body >
 
+	<fieldset class="form_cointainer" id="main">
+		<legend>
+			Acceso
+		</legend>
+
+		<form @submit.prevent="login">
+			
 			<fieldset>
-				<label>
-					Email
-				</label>
-				<input type="email" v-model="email" placeholder="write here" name="" required>
+				<legend>
+					<label>
+						Email
+					</label>
+				</legend>
+				<input type="" v-model="email" name="">
+			</fieldset>
+			
+			<fieldset>
+				<legend>
+					<label>
+						Password
+					</label>
+				</legend>
+				<input type="" v-model="password" name="">
 			</fieldset>
 
-			<fieldset>
-				<label>
-					Password
-				</label>
-				<input type="password" v-model="password" placeholder="write here" name="" required>
-			</fieldset>
 
 			<button type="submit">
-				Access
+				Acceder
 			</button>
-
-			 
 		</form>
-
-		<h1 v-if="is_log">
-			
-			Bienvenido usuario
-
-		</h1>
-
-		<button class="myButton">
-			Añadir record
-		</button>
-
-		<div v-if="is_log && !is_edit">
-			
-			<table class="customTable">
-			  <thead>
-			    <tr>
-			      <th>
-			      	Nombre
-			      </th>
-			      <th>
-			      	Username
-			      </th>
-			      <th>
-			      	Email
-			      </th>
-			      <th>
-			      	Acciones
-			      </th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr v-for="user in users">
-			      <td>
-			      	 {{ user.name }}
-			      </td>
-			      <td>
-			      	{{ user.username }}
-			      </td>
-			      <td>
-			      	{{ user.email }}
-			      </td>
-			      <td>
-			      	<button v-on:click="editar(user.email)">
-			      		Editar
-			      	</button>
-			      	<button v-on:click="borrar(user.email)">
-			      		Eliminar
-			      	</button>
-			      </td>
-			    </tr> 
-			  </tbody>
-			</table> 
+	</fieldset>
 
 
-		</div>
-
-		<fieldset>
-			<legend>
-				Editar registro
-			</legend>
-			<form v-if="is_edit" @submit.prevent="update_data">
-				
-				<fieldset>
-					<label>
-						Nombre
-					</label>
-					<input type="" v-model="update_name" name="">
-				</fieldset>
-
-				<fieldset>
-					<label>
-						Username
-					</label>
-					<input type=""  v-model="update_user" name="">
-				</fieldset>
-
-				<fieldset>
-					<label>
-						email
-					</label>
-					<input type="" readonly v-model="update_email" name="">
-				</fieldset>
-
-
-				<button>
-					Update data
-				</button>
-			</form>
-		<fieldset>
-
-		<hr>
-
-		 
-
-	</div>
-	
 	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 	<script>
 	  const { createApp, ref } = Vue
@@ -189,26 +56,15 @@
 	    setup() {
 	      
 	    	const name_app = ref('Mi primer app') 
-	      	let email = ref('jsoto@uabcs.mx') 
-	      	let password = ref('123123123') 
-	      	let is_log = ref(false) 
-	      	let users = ref([]) 
-	      	let is_edit = ref(false) 
-
-	      	let update_name = ref('')
-			let update_user = ref('')
-			let update_email = ref('')
+	      	let email = ref('jbenitez_20') 
+	      	let password = ref('rataloca94260') 
+	      	let is_log = ref(false)  
 
 		    return {
 		    	name_app, 
 		    	email,
 		    	password,
-		    	is_log,
-		    	users,
-		    	is_edit,
-		    	update_name,
-				update_user,
-				update_email
+		    	is_log
 		    }
 
 	    },
@@ -219,6 +75,45 @@
 	    		console.log(this.email)
 	    		console.log(this.password)
 
+
+	    		const myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+				myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzN2IxMDAyZjFjYmY3N2JkMTg1ZDg3NDkyMmFlZWU3MCIsInN1YiI6IjY1MTRiNzhlYmRkNTY4MDEzZjU4MzBjOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OX11ObYS13YEQravRhAAKDfzpifakVGHdTnmxJ3rEeo");
+
+				const raw = JSON.stringify({
+				  "username": this.email,
+				  "password": this.password,
+				  "request_token": ""
+				});
+
+				const requestOptions = {
+				  method: "POST",
+				  headers: myHeaders,
+				  body: raw,
+				  redirect: "follow"
+				};
+
+				fetch("https://api.themoviedb.org/3/authentication/token/validate_with_login", requestOptions)
+				  .then((response) => response.json())
+				  .then((result) => {
+
+				  	console.log(result)
+				  	if (result.success) {
+
+				  		this.is_log = true
+				  		window.location.href = "movies.html";
+
+				  		localStorage.setItem("is_log", this.is_log);
+				  		localStorage.setItem("username", this.email);
+
+				  	}else{
+				  		alert("Verifique la información")
+				  	}
+
+				  })
+				  .catch((error) => console.error(error));
+
+	    		/*
 	    		fetch ("users.json")
 				.then(response => response.json())
 				.then(response => {
@@ -241,88 +136,25 @@
 					}
 
 				});
-	    	},
-	    	borrar(email)
-	    	{
-	    		
-	    		for (var i = this.users.length - 1; i >= 0; i--) { 
-
-	    			if (this.users[i].email == email) {
-						
-						console.log("asd") 
-
-						this.users.splice(i, 1);;
-						break;
-					}
-	    		}
-	    		 
-
-				console.log(this.users)		
- 
-	    	},
-	    	editar(email)
-	    	{
-	    		this.is_edit=true
-
-	    		for (var i = this.users.length - 1; i >= 0; i--) { 
-
-	    			if (this.users[i].email == email) {
-						
-						this.update_name = this.users[i].name
-						this.update_user = this.users[i].username
-						this.update_email = this.users[i].email
-					}
-	    		}
-	    	},
-	    	update_data()
-	    	{
-	    		for (var i = this.users.length - 1; i >= 0; i--) { 
-
-	    			if (this.users[i].email == this.update_email) {
-						
-						this.users[i].name = this.update_name  
-						 this.users[i].username  = this.update_user 
-
-						 this.is_edit=false
-
-						 alert("datos actualizados")
-					}
-	    		}
-
-	    		if (this.is_edit) {
-	    			alert("Ha ocurrido un error")
-	    		}
-	    		 
+				*/
 	    	}
 	    },
 	    mounted() { 
 
-	    	fetch ("users.json")
-			.then(response => response.json())
-			.then(response => {
-				
-				this.users = response; 
+	    	console.log("Hola") 
 
-			});
+	    	 
+		    let is_log = localStorage.getItem("is_log");
+		    let username = localStorage.getItem("username");
 
-		    let user_data = localStorage.getItem("user_data");
-		    if (user_data != null) {
+		    if (is_log != null && username != null) { 
 
-		    	user_data = JSON.parse(user_data) 
-
-		    	this.is_log = true
+		    	window.location.href = "movies.html";
 		    }
+		     
 
 		}
 	  }).mount('#main') 
 	</script>
 </body>
 </html>
-
-
-
-
-
-
-
-

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		.card {
+		  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+		  transition: 0.3s;
+		  width: 30%;
+		  display: inline-block;
+		  margin: 10px;
+		}
+
+		.card:hover {
+		  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+		}
+
+		.container {
+		  padding: 2px 16px;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="main"> 
+		
+		<div class="card" v-for="movie in movies">
+		  <img  v-bind:src="'https://media.themoviedb.org/t/p/w440_and_h660_face/' + movie.poster_path"  v-bind:alt="movie.original_title" style="width:100%">
+		  
+		  <div class="container">
+		    <h4><b>{{ movie.release_date }}</b></h4> 
+		    <p>
+		    	{{ movie.original_title }}
+		    </p> 
+		  </div>
+		</div>
+
+	</div>
+
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script>
+	  const { createApp, ref } = Vue
+
+	  createApp({
+	    setup() {
+	      
+	    	const name_app = ref('Mi primer app')  
+	    	const movies = ref([])  
+
+		    return {
+		    	name_app,
+		    	movies
+		    }
+
+	    },
+	    methods:{
+
+	    	 
+	    },
+	    mounted() { 
+
+	    	console.log("Hola") 
+
+	    	 
+		    let is_log = localStorage.getItem("is_log");
+		    let username = localStorage.getItem("username");
+
+		    if (is_log == null && username == null) { 
+		    	window.location.href = "index.html";
+		    }
+		     
+		    const myHeaders = new Headers();
+			myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZjc0YTNmYTEyOWY1MzhhMTFhMjM4NTc4MWYxM2VkYyIsIm5iZiI6MTcyODM0NDEwNi44MzI4MjEsInN1YiI6IjYzMWEyMzYyMWQxYmY0MDA3ZWExMTYxMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FF_Mye52ZsRV9b7uQt5nzBA6_7IAFZ8fgR9Gr6sFCtE");
+
+			const requestOptions = {
+			  method: "GET",
+			  headers: myHeaders,
+			  redirect: "follow"
+			};
+
+			fetch("https://api.themoviedb.org/3//discover/movie", requestOptions)
+			  .then((response) => response.json())
+			  .then((result) => {
+
+			  	console.log(result)
+
+			  	this.movies = result.results
+
+			  })
+			  .catch((error) => console.error(error));
+
+		}
+	  }).mount('#main') 
+	</script>
+</body>
+</html>
