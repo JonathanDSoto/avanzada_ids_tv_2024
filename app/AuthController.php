@@ -52,7 +52,7 @@
 
 				$_SESSION['user_data'] = $response->data;
 
-				header("Location: ../home.html");
+				header("Location: ../home.php");
 			}else{
 				header("Location: ../index.html");
 			}

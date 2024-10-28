@@ -1,3 +1,12 @@
+<?php 
+	
+	include_once "app/ProductsController.php";
+
+	$productsController = new ProductsController();
+
+	$productos = $productsController->get();
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -130,15 +139,22 @@
 					<div class="row">
 						
 
+						<?php if (isset($productos) && count($productos)): ?>
+						<?php foreach ($productos as $product): ?> 
+						
 						<div class="col-3">
 					
 
-							<div class="card" style="width: 18rem;">
-							  <img src="https://ui-avatars.com/api/?name=John+Doe" class="card-img-top" alt="...">
+							<div class="card mb-3" style="width: 18rem;">
+							  <img src="<?= $product->cover ?>" class="card-img-top" alt="...">
 							  <div class="card-body">
-							    <h5 class="card-title">Card title</h5>
-							    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							    <a href="product.html" class="m-1 btn btn-primary">Go somewhere</a>
+							    <h5 class="card-title">
+							    	<?= $product->name ?>
+							    </h5>
+							    <p class="card-text">
+							    	<?= $product->description ?>
+							    </p>
+							    <a href="product.php" class="m-1 btn btn-primary">Go somewhere</a>
 
 							    <a href="product.html" class="m-1 btn btn-danger">
 							    	Eliminar
@@ -151,6 +167,9 @@
 							</div>
 
 						</div>
+
+						<?php endforeach ?>
+						<?php endif ?>
 
 					</div>
 
