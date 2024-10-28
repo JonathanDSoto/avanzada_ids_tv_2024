@@ -4,7 +4,8 @@
 
 	$productsController = new ProductsController();
 
-	$productos = $productsController->get();
+	$producto = $productsController->getBySlug($_GET['slug']);
+
 
 ?>
 <!DOCTYPE html>
@@ -133,44 +134,73 @@
 					  Añadir
 						</button> 
 					  
-					</nav>
- 
+					</nav> 
 					
 					<div class="row">
 						
 
-						<?php if (isset($productos) && count($productos)): ?>
-						<?php foreach ($productos as $product): ?> 
-						
-						<div class="col-3">
-					
 
-							<div class="card mb-3" style="width: 18rem;">
-							  <img src="<?= $product->cover ?>" class="card-img-top" alt="...">
-							  <div class="card-body">
-							    <h5 class="card-title">
-							    	<?= $product->name ?>
-							    </h5>
-							    <p class="card-text">
-							    	<?= $product->description ?>
-							    </p>
-							    <a href="product.php?slug=<?= $product->slug ?>" class="m-1 btn btn-primary">Go somewhere</a>
+						<div class="card">
+						  <div class="card-header">
+						    Featured
+						  </div>
+						  <div class="card-body">
+						    <div class="row">
+						    	
+						    	<div class="col-6">
+						    		
+						    		<div id="carouselExampleCaptions" class="carousel slide">
+									  <div class="carousel-indicators">
+									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+									    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+									  </div>
+									  <div class="carousel-inner">
+									    <div class="carousel-item active">
+									      <img src="<?= $producto->cover ?>" class="d-block w-100" alt="...">
+									      <div class="carousel-caption d-none d-md-block">
+									        <h5>First slide label</h5>
+									        <p>Some representative placeholder content for the first slide.</p>
+									      </div>
+									    </div> 
+									  </div>
+									  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+									    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									    <span class="visually-hidden">Previous</span>
+									  </button>
+									  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+									    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+									    <span class="visually-hidden">Next</span>
+									  </button>
+									</div>
 
-							    <a href="product.html" class="m-1 btn btn-danger">
-							    	Eliminar
-							    </a>
+						    	</div>
+						    	<div class="col-6">
+						    		
+						    		<h5 class="card-title">
+						    			<?= $producto->name ?>
+						    		</h5>
+								    <p class="card-text">
+								    	<?= $producto->description ?>
+								    </p>
+								    <a href="#" class="btn btn-primary">Go somewhere</a>
 
-							    <a href="product.html" data-bs-toggle="modal" data-bs-target="#exampleModal" class="m-1 btn btn-warning">
-							    	Editar
-							    </a>
-							  </div>
-							</div>
+								    <ul>
+								    	<?php if (isset($producto->tags) && count($producto->tags)): ?>
+								    	<?php foreach ($producto->tags as $tag): ?>
+								    	<li>
+								    		<?= $tag->name ?>
+								    	</li>
 
+								    	<?php endforeach ?>
+								    	<?php endif ?>
+								    	
+								    </ul>
+						    	</div>
+						    </div>
+						  </div>
 						</div>
-
-						<?php endforeach ?>
-						<?php endif ?>
-
+						 
 					</div>
 
 				</div>
