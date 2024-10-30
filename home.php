@@ -4,7 +4,7 @@
 
 	$productsController = new ProductsController();
 
-	$productos = $productsController->get();
+	$productos = array_reverse($productsController->get());
 
 ?>
 <!DOCTYPE html>
@@ -184,29 +184,56 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">
+	        	Añadir producto
+	        </h1>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body">
-	        <form>
+	        
+	        <form method="POST" action="app/ProductsController.php">
+			  
 			  <div class="mb-3">
-			    <label for="exampleInputEmail1" class="form-label">Email address</label>
-			    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-			    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+			    <label for="exampleInputEmail1" class="form-label">
+			    	Nombre
+			    </label>
+			    <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required> 
 			  </div>
 			  <div class="mb-3">
-			    <label for="exampleInputPassword1" class="form-label">Password</label>
-			    <input type="password" class="form-control" id="exampleInputPassword1">
+			    <label for="exampleInputPassword1" class="form-label">
+			    	Slug
+			    </label>
+			    <input type="text" name="slug" class="form-control" id="exampleInputPassword1" required>
 			  </div>
-			  <div class="mb-3 form-check">
-			    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-			    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+
+			  <div class="mb-3">
+			    <label for="" class="form-label">
+			    	Descripción
+			    </label>
+			    <textarea name="description" required class="form-control"></textarea>
 			  </div>
-			  <button type="submit" class="btn btn-primary">Submit</button>
+
+			  <div class="mb-3">
+			    <label for="" class="form-label">
+			    	Features
+			    </label>
+			    <input type="text" name="features" required class="form-control" id="">
+			  </div>
+			   
+			  <button type="submit" class="btn btn-primary">
+			  	Crear producto
+			  </button>
+
+			  <input type="hidden" name="action" value="crear_producto">
+			
 			</form>
+	      
 	      </div>
+	      
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancelar</button> 
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+	        	cancelar
+	        </button> 
 	      </div>
 	    </div>
 	  </div>
