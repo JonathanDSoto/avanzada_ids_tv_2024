@@ -1,10 +1,14 @@
 <?php 
 	
 	include_once "app/ProductsController.php";
+	include_once "app/BrandsController.php";
 
 	$productsController = new ProductsController();
+	$brandsController = new BrandsController();
 
 	$productos = array_reverse($productsController->get());
+
+	$marcas = $brandsController->get();
 
 ?>
 <!DOCTYPE html>
@@ -156,7 +160,7 @@
 							    </p>
 							    <a href="product.php?slug=<?= $product->slug ?>" class="m-1 btn btn-primary">Go somewhere</a>
 
-							    <a href="product.html"  class="m-1 btn btn-danger">
+							    <a onclick="remove(<?= $product->id ?>)"  class="m-1 btn btn-danger">
 							    	Eliminar
 							    </a>
 
@@ -218,6 +222,24 @@
 			    	Features
 			    </label>
 			    <input type="text" name="features" required class="form-control" id="">
+			  </div>
+
+			  <div class="mb-3">
+			    <label for="" class="form-label">
+			    	Marcas
+			    </label>
+			    
+			    <select name="brand_id" class="form-control">
+			    	
+			    	<?php if (isset($marcas) && count($marcas)): ?>
+			    	<?php foreach ($marcas as $marca): ?>
+			    		<option value="<?= $marca->id ?>">
+			    			<?= $marca->name ?>
+			    		</option>
+			    	<?php endforeach ?>
+			    	<?php endif ?>
+			    </select>
+
 			  </div>
 			   
 			  <button type="submit" class="btn btn-primary">
@@ -299,7 +321,16 @@
 	  </div>
 	</div>
 
+	<form method="POST" id="removeProductForm" action="app/ProductsController.php"> 
+
+	  <input type="hidden" name="action" value="delete_producto">
+
+	  <input type="hidden" name="product_id" value="" id="delete_id_product">
+	
+	</form>
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script type="text/javascript">
 		
 		function editar(target)
@@ -319,6 +350,34 @@
 			
 			
 			
+		}
+
+		function remove(id)
+		{	
+
+
+			swal({
+			  title: "Are you sure?",
+			  text: "Once deleted, you will not be able to recover this imaginary file!",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+			    swal("Poof! Your imaginary file has been deleted!", {
+			      icon: "success",
+			    });
+
+			    document.getElementById("delete_id_product").value = id
+			    document.getElementById("removeProductForm").submit();
+
+			  } else {
+			    
+			  }
+			});
+
+			console.log(id)
 		}
 
 	</script>
