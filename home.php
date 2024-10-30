@@ -156,11 +156,11 @@
 							    </p>
 							    <a href="product.php?slug=<?= $product->slug ?>" class="m-1 btn btn-primary">Go somewhere</a>
 
-							    <a href="product.html" class="m-1 btn btn-danger">
+							    <a href="product.html"  class="m-1 btn btn-danger">
 							    	Eliminar
 							    </a>
 
-							    <a href="product.html" data-bs-toggle="modal" data-bs-target="#exampleModal" class="m-1 btn btn-warning">
+							    <a onclick="editar(this)" data-product='<?= json_encode($product) ?>'  data-bs-toggle="modal" data-bs-target="#updateModal" class="m-1 btn btn-warning">
 							    	Editar
 							    </a>
 							  </div>
@@ -239,6 +239,88 @@
 	  </div>
 	</div>
 
+	<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">
+	        	Añadir producto
+	        </h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        
+	        <form method="POST" action="app/ProductsController.php">
+			  
+			  <div class="mb-3">
+			    <label for="update_name" class="form-label">
+			    	Nombre
+			    </label>
+			    <input type="text" name="name" class="form-control" id="update_name" aria-describedby="emailHelp" required> 
+			  </div>
+			  <div class="mb-3">
+			    <label for="update_slug" class="form-label">
+			    	Slug
+			    </label>
+			    <input type="text" name="slug" class="form-control" id="update_slug" required>
+			  </div>
+
+			  <div class="mb-3">
+			    <label for="update_description" class="form-label">
+			    	Descripción
+			    </label>
+			    <textarea name="description" required id="update_description" class="form-control"></textarea>
+			  </div>
+
+			  <div class="mb-3">
+			    <label for="update_features" class="form-label">
+			    	Features
+			    </label>
+			    <input type="text" name="features" required class="form-control" id="update_features">
+			  </div>
+			   
+			  <button type="submit" class="btn btn-primary">
+			  	Actualizar producto
+			  </button>
+
+			  <input type="hidden" name="action" value="update_producto">
+			  <input type="hidden" name="product_id" value="" id="update_id_product">
+			
+			</form>
+	      
+	      </div>
+	      
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+	        	cancelar
+	        </button> 
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		
+		function editar(target)
+		{
+
+			let product = JSON.parse(target.dataset.product)
+
+			console.log(product.name)
+
+			document.getElementById("update_name").value = product.name
+			document.getElementById("update_slug").value = product.slug
+			document.getElementById("update_description").value = product.description
+			document.getElementById("update_features").value = product.features
+			document.getElementById("update_id_product").value = product.id
+			
+			
+			
+			
+			
+		}
+
+	</script>
 </body>
 </html>
