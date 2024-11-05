@@ -1,3 +1,11 @@
+<?php
+
+	session_start();
+
+	if (!isset($_SESSION['token'])) {
+		$_SESSION['token'] = 123;
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
